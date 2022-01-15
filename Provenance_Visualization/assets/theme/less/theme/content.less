@@ -1,0 +1,692 @@
+// Content Styling
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+.vs-input-file{
+  position:relative;
+  margin:10px;
+  width:100px;
+  background-color: @secondary-color;
+  border-radius: 25px;
+  cursor: pointer;
+  color: @w;
+  &:hover{
+    background: @secondary-color-hover;
+  }
+  + figcaption{
+    &:hover{
+      display: block !important;
+      border: 25px;
+      background: @lightgrey;
+      transition: all 5s;
+    }
+  }
+}
+
+#vs-input-file-button{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	width:100%;
+	height:100%;
+	opacity: 0;
+  cursor:pointer;
+
+}
+.vs-text-color{
+  color: @txt;
+}
+.vs-button-icon-secondary{
+  background: @secondary-color;
+  color:@w;
+  font-size:@global-large-font-size;
+  border:none;
+  padding: 12px 24px !important;
+  line-height: unset !important;
+  cursor: pointer;
+  &:hover{
+    background: @secondary-color-hover;
+  }
+}
+
+.vs-container{
+  pre{
+    height: 500px;
+    margin-bottom: 0px !important;
+  }
+}
+.vs-splitter, .vs-top-splitter, .vs-bottom-splitter {
+    width: 100%;
+    height: 1000px;
+    display: flex;
+}
+
+#horizontal-separator{
+    cursor: col-resize;
+    background-color: @lightgrey;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 10px;
+    height: 100%;
+
+    /* Prevent the browser's built-in drag from interfering */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#vs-graph {
+  width: 50%;
+  height: 100%;
+  min-width: 10px;
+  overflow: auto;
+}
+
+#vs-pie{
+    width: 50%;
+    height: 100%;
+    min-width: 10px;
+    overflow: auto;
+}
+.gutter-vertical{
+  width: 100%;
+  background: @verylightgrey ;
+  border: 1px solid @lightgrey;
+  border-radius: 18px;
+
+}
+.gutter-horizontal{
+  height: 100%;
+  background: @verylightgrey ;
+  border: 1px solid @lightgrey;
+  border-radius: 18px;
+}
+.vs-container-for-visualization-of-data{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  #content{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+  }
+}
+// Directed Graph
+.vs-svg-for-directed-graph{
+  visibility: hidden;
+}
+.link{
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+.node.main{
+  display: block !important;
+  path{
+    fill : red !important;
+  }
+}
+
+.link.main{
+  display: block !important;
+}
+// d3 Tip
+
+.d3-tip {
+  max-width: 350px;
+  height: auto;
+  line-height: 1;
+  padding: 12px;
+  .uk-background-secondary();
+  color: @w;
+  border-radius: 10px;
+  strong{
+    font-size: 14px;
+    color: @w;
+    font-weight: 600;
+  }
+  &:after{
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: @w;
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+  .n{
+    &:after{
+      margin: -1px 0 0 0;
+      top: 100%;
+      left: 0;
+    }
+  }
+}
+// Sidenav
+
+.vs-select{
+  margin: 0px 30px;
+  .vs-select-field{
+    padding: 10px;
+    border-radius: 18px;
+    background: @secondary-color;
+    color: @w;
+    font-weight: 600;
+  }
+}
+.vs-droppable-container{
+  margin: 20px;
+  .uk-background-secondary{
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  .vs-droppable{
+    min-height: 300px;
+    background:@w;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    .vs-modal{
+      margin-top: 0px !important;
+      width: auto !important;
+      box-shadow: none;
+      padding: 0px;
+      height: 150px !important;
+      margin: 10px;
+      overflow: hidden;
+      .uk-table{
+        th{
+          padding: 0px !important;
+        }
+      }
+    }
+  }
+}
+
+//table
+
+#vs-table{
+  width:100%;
+  min-width: 200px;
+  overflow-x: scroll;
+  background: @w;
+  .dataTables_length, .dataTables_filter{
+    margin: 15px 10px !important;
+    label{
+      select, input{
+        border-radius: 18px !important;
+      }
+    }
+  }
+  .dataTables_scrollHead{
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    .dataTables_scrollHeadInner{
+      width: 100% !important;
+      .vs-get-header{
+        width: 100% !important;
+      }
+    }
+  }
+  .dataTables_scrollBody{
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+  }
+}
+table.dataTable.vs-get-header, table.dataTable.vs-table-for-directed-graph{
+  thead{
+    background: @present-color;
+    th{
+      text-transform: capitalize;
+      color: @w;
+    }
+  }
+  tr{
+    cursor: pointer;
+  }
+}
+
+//modal
+
+// modal for table
+.vs-selected-row{
+  background: @secondary-color !important;
+}
+.vs-modal-for-table{
+  display:none;
+  margin-top: -900px;
+  max-width: 600px !important;
+  background: @w;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  padding: 15px;
+  height: 400px;
+  .vs-modal-for-table-container{
+    overflow: auto;
+    width: 100%;
+    max-height: 200px;
+    border-radius: 18px;
+    .vs-modal-table{
+      width: 100%;
+      thead{
+        background: @present-color;
+        text-transform: capitalize;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        th{
+          color: @w;
+        }
+      }
+      tbody{
+        .vs-forward-tracing-row{
+          background: @forward-tracing-color;
+        }
+        .vs-forward-tracing-row.vs-selected-row{
+          background: @secondary-color;
+        }
+        .vs-backward-tracing-row{
+          background: @backward-tracing-color;
+        }
+        .vs-backward-tracing-row.vs-selected-row{
+          background: @secondary-color;
+        }
+      }
+    }
+  }
+  .vs-close{
+    color: @primary-color;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+      color: @secondary-color;
+    }
+  }
+}
+// modal :: checkbox
+.vs-input-forward-tracing{
+
+}
+// Tracing table
+
+.vs-container-table-tracing{
+  min-width: 200px;
+  background: @w;
+  .uk-flex{
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  .dataTables_wrapper{
+    padding:10px;
+    select{
+      border-radius: 18px;
+    }
+    .dataTables_filter{
+      input{
+        border-radius: 18px;
+      }
+    }
+    .dataTables_scroll{
+      .dataTables_scrollHead{
+        max-width: 100% !important;
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+        .dataTables_scrollHeadInner{
+          width: 100% !important;
+        }
+      }
+      .dataTables_scrollBody{
+        width: 80%;
+        border-bottom: none;
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+        table.dataTable{
+          tbody{
+            tr.even, tr.odd{
+              &:hover{
+                background: darken(@forward-tracing-color, 20%);
+              }
+            }
+            tr.even{
+              background: lighten(@forward-tracing-color, 20%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.vs-table-forward-tracing {
+  width: 100% !important;
+  thead{
+    background: @forward-tracing-color !important;
+  }
+}
+// Search Options of Table
+.dataTables_wrapper{
+  .dataTables_length{
+    margin: 15px 0px;
+    select{
+      background: @w;
+    }
+  }
+  .dataTables_filter{
+    float: center;
+    label{
+      margin-top: -2px;
+      padding-left: 15px;
+    }
+    input{
+      background: @w !important;
+    }
+  }
+}
+// Datatables Pagination
+.dataTables_paginate{
+  .paginate_button{
+    border: none;
+    background: @w !important;
+    border-radius: 13px;
+  }
+  .paginate_button.current{
+    background: @secondary-color !important;
+    color: @w;
+  }
+}
+/* Create a custom checkbox */
+.vs-container-for-tracing-description{
+  > * {
+    margin-right: 15px;
+  }
+}
+.vs-checkmark-forward, .vs-checkmark-backward, .vs-checkmark-selected-element{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  border-radius: 3px;
+  &:after{
+    content: "";
+    position: absolute;
+    display: none;
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+  }
+}
+.vs-label-forward-tracing, .vs-label-backward-tracing, .vs-label-selected-element{
+  margin: auto 0px !important;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+  /* Hide the browser's default checkbox */
+  .vs-input-forward-tracing, .vs-input-backward-tracing, .vs-input-selected-element{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /*&:checked ~ .vs-checkmark{
+      background-color: darken(@forward-tracing-color, 40%);
+    }
+    &:checked ~ .vs-checkmark:after{
+      display: block;
+    }*/
+  }
+  /* On mouse-over, add a grey background color */
+  /*&:hover .vs-input-forward-tracing ~ .vs-checkmark{
+    background-color: darken(@forward-tracing-color, 40%);
+  }*/
+  /* When the checkbox is checked, add a blue background
+  .container .vs-input-forward-tracing:checked ~ .vs-checkmark {
+    background-color: darken(@forward-tracing-color, 40%);
+  }*/
+}
+.vs-checkmark-forward{
+  border: 1px solid darken(@forward-tracing-color, 30%);
+  background-color: @forward-tracing-color;
+  /* Show the checkmark when checked */
+  .vs-input-forward-tracing:checked ~ .vs-checkmark-forward:after {
+    display: block;
+  }
+}
+.vs-checkmark-backward{
+  border: 1px solid darken(@backward-tracing-color, 30%);
+  background-color: @backward-tracing-color;
+  /* Show the checkmark when checked */
+  .vs-input-backward-tracing:checked ~ .vs-checkmark-backward:after {
+    display: block;
+  }
+}
+.vs-checkmark-selected-element{
+  border: 1px solid darken(@present-color, 30%);
+  background-color: @present-color;
+  /* Show the checkmark when checked */
+  .vs-input-selected-element:checked ~ .vs-checkmark-selected-element:after {
+    display: block;
+  }
+}
+//color picker
+.vs-color-picker{
+  position: relative;
+  overflow: hidden;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin: auto;
+  cursor: pointer;
+  input{
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 56px;
+    height: 56px;
+  }
+}
+.vs-title-color-picker, .vs-save-color-combination-title{
+  padding-left: 8px;
+}
+.vs-save-color-combination-checkbox{
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
+  margin: auto;
+}
+// functions for nested table
+
+.vs-right-nested-table-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+/* Each of the items in the list */
+.vs-right-nested-table-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+    user-select: none;
+}
+
+.vs-right-nested-table-menu li:hover {
+    background-color: #DEF;
+}
+//modal for nested table
+.vs-modal-for-nested-table{
+  display:none;
+  margin-top: -1000px;
+  min-width: 650px !important;
+  max-width: 950px;
+  max-height: 450px !important;
+  background: @w;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  padding: 15px;
+  .vs-close{
+    color: @primary-color;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+      color: @secondary-color;
+    }
+  }
+  //height: 250px !important;
+}
+// overlay
+
+.vs-overlay{
+  &:after{
+    content: " ";
+    display: block;
+    background: fade(@black, 20%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+//updateAccordion - noch nicht fertig
+
+.vs-accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.vs-accordion-panel {
+  display: none;
+}
+// Table rect
+.vs-rect{
+  cursor: pointer;
+}
+//modal nested table
+.vs-modal-nested-table-content{
+  .vs-modal-nested-table-container{
+    border-radius: 18px;
+    overflow: auto;
+    max-height: 150px;
+    .vs-modal-table{
+      width: 100%;
+      thead{
+        background: @present-color;
+        text-transform: capitalize;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        th{
+          color: @w;
+        }
+      }
+      tbody{
+        .vs-forward-tracing-row{
+          background: @forward-tracing-color;
+        }
+        .vs-backward-tracing-row{
+          background: @backward-tracing-color;
+        }
+      }
+    }
+  }
+  .vs-timeline{
+    list-style: none;
+    margin-left: .2em;
+    border-left: 3px solid fade(@primary-color, 40%);
+    padding-left:0px;
+    cursor: pointer;
+    li{
+      .vs-span-modal-nested-table{
+        margin-left: 155px;
+        font-size: 16px;
+        padding: 15px;
+        white-space: nowrap;
+        margin-top: -45px;
+
+      }
+      &:before{
+        .fas;
+        content: "\f111";
+        color: @secondary-color;
+        font-size: 26px;
+      }
+      &:after{
+        margin-right: 10px;
+      }
+      font-size: 24px;
+      color: @primary-color;
+      margin-left: -15px;
+      + li{
+        margin-top: 15px;
+      }
+    }
+
+  }
+
+}
+.vs-close-container{
+  height: 40px;
+}
+// Directed Graph
+
+.vs-directed-graph-description-container {
+  width: 150px;
+  height: 200px;
+  margin: 30px 0px 0px 30px;
+  border-radius: 18px;
+  position: sticky;
+  top: 2%;
+
+  .vs-title{
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    p{
+      margin-bottom: 0px
+    }
+  }
+}
+.vs-directed-graph-picker{
+  margin: 0px !important;
+}

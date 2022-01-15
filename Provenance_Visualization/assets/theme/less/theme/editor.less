@@ -1,0 +1,130 @@
+body {
+  margin: 30px;
+}
+
+// Variables
+@import "variables.less";
+
+// Framework
+@import (reference) "../../framework/uikit-3.2.0/less/uikit.less";
+
+@import "../../framework/uikit-3.2.0/less/components/button.less";
+
+// FontAwesome
+
+@import (reference) "../fontawesome/fontawesome.less";
+@import (reference) "../fontawesome/light.less";
+@import (reference) "../fontawesome/regular.less";
+@import (reference) "../fontawesome/solid.less";
+// @import "../fontawesome/brands.less";
+// @import "../fontawesome/duotone.less";
+
+// Base
+@import "base.less";
+
+// Editor Typo
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: @global-font-family;
+  font-size: @global-font-size;
+  font-weight: @global-font-weight;
+  line-height: @global-line-height;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  clear: both;
+  line-height: @global-line-height;
+  margin: 0 0 @global-margin 0;
+  padding: 0;
+
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  padding-top: 0;
+}
+
+h1 {
+  .uk-h1()
+}
+
+h2 {
+  .uk-h2()
+}
+
+h3 {
+  .uk-h3()
+}
+
+h4 {
+  .uk-h4()
+}
+
+h5 {
+  .uk-h5()
+}
+
+h6 {
+  .uk-h6()
+}
+
+p {
+  margin: @global-margin 0;
+  padding: 0;
+}
+
+.uk-text-large {
+  font-size: @global-large-font-size;
+  line-height: 1.5;
+}
+
+.uk-text-small {
+  font-size: @global-small-font-size;
+  line-height: 1.5;
+}
+
+.uk-text-primary {
+  color: @primary-color;
+}
+
+.uk-text-muted {
+  color: @global-muted-color;
+}
+
+.uk-button.uk-button-primary {
+  .uk-button;
+  .uk-button-primary;
+}
+
+.uk-button.uk-button-default {
+  .uk-button;
+  .uk-button-default;
+}
+
+// Editor Bugfixes
+
+.mce-content-body a.uk-button.uk-button-primary[data-mce-selected] {
+  .uk-button;
+  .uk-button-primary;
+}
+
+.mce-content-body a.uk-button.uk-button-default[data-mce-selected] {
+  .uk-button;
+  .uk-button-default;
+}
+
+// Wordpress
+@import "wordpress.less";

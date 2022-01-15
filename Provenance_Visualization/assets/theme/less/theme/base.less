@@ -1,0 +1,133 @@
+// HTML, Body
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-wrap: break-word;
+  hyphens: auto;
+  box-sizing: border-box;
+}
+
+body{
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+// Headlines
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+.uk-h1,
+.uk-h2,
+.uk-h3,
+.uk-h4,
+.uk-h5,
+.uk-h6 {
+  display: block;
+}
+
+h1,
+.uk-h1 {
+}
+
+h2,
+.uk-h2 {
+}
+
+h3,
+.uk-h3 {
+}
+
+h4,
+.uk-h4 {
+}
+
+h5,
+.uk-h5 {
+}
+
+h6,
+.uk-h6 {
+}
+
+// Misc. Typo
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+a {
+  transition: @base-transition;
+}
+
+// Classes
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+.kap {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: @global-small-font-size;
+}
+
+// Buttons
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+.uk-button{
+  font-family: @base-heading-font-family;
+  font-weight: 500;
+  border-radius: 25px;
+  text-transform: uppercase;
+  line-height: initial;
+  padding: 12px 24px;
+
+  &.uk-button-default {
+    background: none;
+    border: 1px solid @txt;
+    &:hover {
+      background: @txt;
+      color: @w;
+    }
+  }
+
+  /*&.uk-button-text{
+    color: @primary-color;
+    padding-left: 0;
+    padding-right: 20px;
+    position: relative;
+    &::after{
+      content: @fa-var-arrow-right;
+      .fal;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      font-size: @global-small-font-size;
+    }
+  }*/
+}
+
+.uk-light {
+  .uk-button-default {
+    background: none;
+    border: 1px solid @w;
+    color: @w;
+    &:hover {
+      background: @w;
+      color: @txt;
+    }
+  }
+}
+
+// Uikit
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+[class*=uk-column-]{
+  h1,
+  h2,
+  h3,
+  .uk-h1,
+  .uk-h2,
+  .uk-h3 {
+    column-span: all;
+  }
+  p{
+    break-inside: avoid-column;
+    page-break-inside: avoid;
+  }
+}

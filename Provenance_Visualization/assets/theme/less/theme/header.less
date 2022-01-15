@@ -1,0 +1,192 @@
+// Header & Menus
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+header {
+  background: @primary-color;
+}
+
+// Navigation
+
+header {
+  nav {
+    ul.main-menu {
+      > li{
+        position: relative;
+        > a{
+          color: @txt;
+          padding: 15px 0;
+        }
+      }
+      li {
+        a {
+          display: block;
+          &:hover{
+            text-decoration: none;
+          }
+        }
+        &.current-menu-item, &:hover {
+          a {
+            color: @secondary-color;
+          }
+        }
+        > .sub-menu{
+          position: absolute;
+          transform: translateY(8%) scale(0.95);
+          transition: all 0.2s;
+          list-style-type: none;
+          opacity: 0;
+          padding: 0;
+          visibility: hidden;
+          overflow: hidden;
+          left: 0;
+          top: 100%;
+          white-space: nowrap;
+          z-index: 10;
+          text-align: left;
+          background-color: fade(@secondary-color, 90%);
+          color: @w;
+          box-shadow: 0 10px 20px 0 fade(@black,10%);
+          > li{
+            > a{
+              padding: 10px 30px 10px 15px;
+              color: @w;
+              &:not(:last-child){
+                border-bottom: 1px solid fade(@w, 15%);
+              }
+              &:hover{
+                background-color: fade(@w, 10%)
+              }
+            }
+          }
+        }
+        &:hover {
+          > .sub-menu{
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+            overflow: visible;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  // Burger Menu Icon
+
+  .main-menu-mobile > a {
+    z-index: 999;
+    width: 35px;
+    height: 35px;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    span {
+      position: absolute;
+      top: 19px;
+      left: 0;
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+      }
+      &:before {
+        top: 12px;
+      }
+      &:after {
+        bottom: 12px;
+      }
+    }
+    span, span:before, span:after {
+      width: 35px;
+      height: 3px;
+      background: @txt;
+      transition: @base-transition;
+      border-radius: 5px;
+    }
+  }
+}
+
+// Offcanvas
+
+.uk-offcanvas-container {
+  .main-menu-mobile {
+    > a {
+      span {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        &:before {
+          top: 0;
+          opacity: 0;
+        }
+        &:after {
+          bottom: 0;
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+}
+
+#offcanvas{
+  .main-menu-mobile {
+    &.uk-nav-primary{
+      a{
+        display: block;
+      }
+      > li{
+        border-bottom: 1px solid fade(@w, 10%);
+        > a{
+          padding: 8px 0;
+          font-size: @global-medium-font-size;
+        }
+        > .sub-menu {
+          a {
+            font-size: @global-medium-font-size;
+            color: @lightgrey;
+            padding: 6px 0 6px 15px;
+          }
+        }
+      }
+      li{
+        &.current-menu-item{
+          > a{
+            color: @w;
+            font-weight: bolder;
+          }
+        }
+      }
+    }
+    > a {
+      span {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        &:before {
+          top: 0;
+          opacity: 0;
+        }
+        &:after {
+          bottom: 0;
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+  .uk-offcanvas-bar{
+    background-color: @darkgrey;
+  }
+}
+
+
+// Intro Image
+
+.intro-image {
+  height: 450px;
+}
