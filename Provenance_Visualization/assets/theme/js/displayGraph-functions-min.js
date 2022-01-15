@@ -1,0 +1,1 @@
+$(document).ready((function(){$(".data.node.main").on("click",(function(){alert("here");var e,t=this.id.split("-")[3],s='*[class*="link-produced-by-'+t+'"]',n='*[id*="data-produced-by-'+t+'"]';$(this).hasClass("selected")?($(this).removeClass("selected"),showContent(n,!1),showContent(s,!1)):($(this).addClass("selected"),showContent(n,!0),showContent(s,!0))}))}));
