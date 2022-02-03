@@ -8,6 +8,8 @@ var outputOfEachOperatorsForDirectedGraph = [];
 var nameOfAllOperatorForDirectedGraph = [];
 var colors = ["#0A9396","#94D2BD","#E9D8A6","#EE9B00","#CA6702","#BB3E03","#AE2012","#9B2226"]
 var group_by_color = [];
+//var total_loops_getData = 0;
+//var total_loops_create_links = 0;
 
 function getDataLinks(outputOfEachOperatorsForDirectedGraph){
   var current_forward_operator = "none";
@@ -44,11 +46,15 @@ function getDataLinks(outputOfEachOperatorsForDirectedGraph){
       var operator = nameOfAllOperatorForDirectedGraph[i];
       var output_of_operator = operator+"-output";
       // Nodes as operator
-      nodes.push({"unique_id":operator,"id":operator, "type":"operator_node"});
+      //nodes.push({"unique_id":operator,"id":operator, "type":"operator_node"});
       if(operator != "input"){
         // Nodes as Output of operator
+        nodes.push({"unique_id":operator,"id":operator, "type":"operator_node"});
         var output_of_operator = operator+"-output";
+
         nodes.push({"unique_id":output_of_operator,"id":output_of_operator, "type":"operator_output"});
+      }else{
+        nodes.push({"unique_id":operator,"id":operator, "type":"operator_output"});
       }
       current_forward_operator = getNeighbourOperatorForDirectedGraph(operator, "forward");
       if(current_forward_operator != "false"){
@@ -56,13 +62,15 @@ function getDataLinks(outputOfEachOperatorsForDirectedGraph){
           // links
           var output_of_operator = operator+"-output";
           links.push({"source":operator, "target":output_of_operator, "type":"operator_to_output","strength": 0.1})
+          links.push({"source":operator , "target":current_forward_operator,"type":"operator_to_operator", "strength": 0.1})
+        }else{
+          links.push({"source":operator , "target":current_forward_operator,"type":"output_to_operator", "strength": 0.1})
         }
-        links.push({"source":operator , "target":current_forward_operator,"type":"operator_to_operator", "strength": 0.1})
       }
 
   }
 
-
+  //console.log("total loops for links = "+ total_loops_create_links);
   return [nodes,links, nodes_operator, links_operator];
 
 }
@@ -71,31 +79,37 @@ function getDataForDirectedGraph(theObject) {
     var result = null;
     if(theObject instanceof Array) {
         for(var i = 0; i < theObject.length; i++) {
-            result = getDataForDirectedGraph(theObject[i]);
+            //console.log(theObject[i]);
+            result = getDataForDirectedGraph(theObject[i]); //schickt die tupla
         }
     }
     else
     {
+
         for(var prop in theObject) {
             //console.log(prop + ': ' + theObject[prop]);
             if(prop == 'children') {
                 //console.log(prop + ': ' + theObject[prop]);
                 outputOfEachOperatorsForDirectedGraph.push(theObject[prop]);
-                /*if(theObject[prop] == 1) {
+                if(theObject[prop] == 1) {
                     return theObject;
-                }*/
+                }
             }
             if(prop == 'name') {
-                console.log(prop + ': ' + theObject[prop]);
+                //console.log(prop + ': ' + theObject[prop]);
                 nameOfAllOperatorForDirectedGraph.push(theObject[prop]);
-
+                if(theObject[prop] == 1) {
+                    return theObject;
+                }
             }
             if(theObject[prop] instanceof Object || theObject[prop] instanceof Array)
-                result = getDataForDirectedGraph(theObject[prop]);
+                result = getDataForDirectedGraph(theObject[prop]);// deep
         }
     }
+    //console.log("total_loops_getData = "+ total_loops_getData);
     return result;
 }
+
 function getNeighbourOperatorForDirectedGraph(operator, typeOfTracing){
   var result = "false";
   if(typeOfTracing === "forward"){
@@ -142,7 +156,7 @@ function getNeighbourOperatorForDirectedGraph(operator, typeOfTracing){
             //console.log(prop + ': ' + theObject[prop]);
             if(prop == 'name') {
                 //console.log(prop + ': ' + theObject[prop]);
-                nameOfAllOperatorForDirectedGraph.push(theObject[prop]);
+                //nameOfAllOperatorForDirectedGraph.push(theObject[prop]);
                 if(theObject[prop] == 1) {
                     return theObject;
                 }
@@ -159,12 +173,29 @@ $(document).ready(function(){
   $.getJSON("data/data.json", function(data){
     //getObjectForDirectedGraph(data)
     getDataForDirectedGraph(data);
+    //getLinksProofPerformance(data);
     structure = getDataLinks(outputOfEachOperatorsForDirectedGraph);
     dataWithSourceAndTarget["nodes"] = structure[0];
     dataWithSourceAndTarget["links"] = structure[1];
+
+
     /*dataWithSourceAndTarget.links.forEach(e => {
       if(e.source === "flatmap-output") console.log(e);
     })*/
+    /*var totally;
+    for(var i=0; outputOfEachOperatorsForDirectedGraph.length;i++){
+      for(var k = 0 ; k< outputOfEachOperatorsForDirectedGraph[i].length; k++ ){
+        var operator = outputOfEachOperatorsForDirectedGraph[i][k].operator;
+        var id = outputOfEachOperatorsForDirectedGraph[i][k].id;
+        var parent_id = outputOfEachOperatorsForDirectedGraph[i][k].parent_id;
+        if(operator == "reduceBykey" && id == "-1147111243" && parent_id == "-1147111243"){
+        //if(operator == "flatmap" && id == "1"){
+          totally = i + k + 2;
+          console.log('Number of executions of the for-loop required to obtain the data through the array:')
+          console.log( '("operator_number": '+ outputOfEachOperatorsForDirectedGraph[i][k].operator_number +', "operator:" '+outputOfEachOperatorsForDirectedGraph[i][k].operator + ', "content":'+outputOfEachOperatorsForDirectedGraph[i][k].content + ', "id":' +outputOfEachOperatorsForDirectedGraph[i][k].id + ', "unique_id" :'+outputOfEachOperatorsForDirectedGraph[i][k].unique_id+') = '+ totally);
+        }
+      }
+    }*/
     links = structure[1];
 
     var width = window.width
@@ -200,7 +231,7 @@ $(document).ready(function(){
       }else if(node.type === "operator_output"){
         return '#1c9be3';
       }else{
-        console.log("firs "+node.operator)
+        //console.log("firs "+node.operator)
         if(typeof node.operator != "undefined"){
           if(group_by_color.length === 0){
             group_by_color.push({"operator":node.operator , "color":colors[1]})
@@ -236,12 +267,12 @@ $(document).ready(function(){
     //function
 
     function getLinkColor(node, link) {
-      //#F3950D #E5E5E5 rgba(50, 50, 50, 0.2)
-      return isNeighborLink(node, link) ? '#F3950D' : '#E5E5E5'
+      //#F3950D #E5E5E5 rgba(50, 50, 50, 0.2) #F3950D #E5E5E5
+      return isNeighborLink(node, link) ? '#E5E5E5' : '#E5E5E5'
     }
 
     function getTextColor(node, neighbors) {
-      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? '#F3950D' : '#001234'
+      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? '#001234' : '#001234'
     }
     function getDisplay(node, neighbors) {
       if(typeof node.type != "undefined"){
@@ -253,7 +284,7 @@ $(document).ready(function(){
 
   //Container for description
 
-  var div = $("<div class='vs-directed-graph-description-container uk-box-shadow-large uk-margin' ><div class='vs-title uk-padding-small uk-background-primary uk-light'><p class='uk-h4 uk-text-center'>Description</p></div>")
+  /*var div = $("<div class='vs-directed-graph-description-container uk-position-absoluted uk-box-shadow-large uk-margin' ><div class='vs-title uk-padding-small uk-background-primary uk-light'><p class='uk-h4 uk-text-center'>Description</p></div>")
   var div_container_description_operator = $("<div class='vs-directed-graph-description uk-flex uk-padding-small'></div>")
   var div_container_description_operator_output = $("<div class='vs-directed-graph-description uk-flex uk-padding-small uk-padding-remove-vertical'></div>")
   var color_picker_for_operator = $('<div class="vs-color-picker vs-directed-graph-picker"><input type="color" value="#001234" name="vs-checkbox-operator" class="vs-input-operator" id="vs-input-operator"></div><div class="vs-title-color-picker"><span>Operator</span></div>')
@@ -263,7 +294,7 @@ $(document).ready(function(){
   div_container_description_operator_output.append(color_picker_for_operator_output)
   div_container_description_operator.append(color_picker_for_operator)
   div.append(div_container_description_operator)
-  div.append(div_container_description_operator_output)
+  div.append(div_container_description_operator_output)*/
 
   var width = $(".vs-graph").width() + 400;
   var height = $(".vs-graph").height() + 600;
@@ -273,7 +304,7 @@ $(document).ready(function(){
     .attr('height', height)
     //.attr("viewBox", '0 0 '+ width+200 +' '+ height-800);
 
-  div.appendTo(".vs-graph")
+  //div.appendTo(".vs-graph")
   svg.appendTo(".vs-graph");
 
   var svg = d3.select(".vs-directed-graph")
@@ -321,12 +352,12 @@ $(document).ready(function(){
 
   var graph_container = $(".vs-graph")
 
-  /*svg.call(d3.zoom().scaleExtent([0.5, 5])
+  svg.call(d3.zoom().scaleExtent([0.5, 5])
               .translateExtent([[0, 0], [width, height]])
               .extent([[0, 0], [width, height]])
               .on("zoom", function(){
         svg.attr("transform", d3.event.transform)
-      }))*/
+      }))
 
 
   // build the arrow.
@@ -337,8 +368,8 @@ $(document).ready(function(){
       .attr("viewBox", "0 -5 10 10")
       .attr("refX", 15)
       .attr("refY", -1.5)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
+      .attr("markerWidth", 4)
+      .attr("markerHeight", 4)
       .attr("orient", "auto")
     .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
@@ -346,14 +377,17 @@ $(document).ready(function(){
   // simulation setup with all forces
   var linkForce = d3
     .forceLink()
+    .distance(function(d) {return 20;})
     .id(function (link) { return link.operator, link.unique_id })
     .strength(function (link) { return link.strength })
+
 
     var simulation = d3
       .forceSimulation()
       .force('link', linkForce)
-      .force('charge', d3.forceManyBody().strength(-20))
-      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('charge', d3.forceManyBody().strength(-5))
+      .force('center', d3.forceCenter(400, height / 2))
+
 
     var dragDrop = d3.drag().on('start', function (node) {
       node.fx = node.x
@@ -366,17 +400,17 @@ $(document).ready(function(){
       if (!d3.event.active) {
         simulation.alphaTarget(0)
       }
-      node.fx = null
-      node.fy = null
+      /*node.fx = null
+      node.fy = null*/
     })
 
     function selectNode(selectedNode) {
       var neighbors = getNeighbors(selectedNode)
       // we modify the styles to highlight selected nodes
       nodeElements.attr('fill', function (node) { return getNodeColor(node, neighbors) })
-      textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
-      textElements.attr('display', function (node) { return getDisplay(node, neighbors) })
-      linkElements.attr('stroke', function (link) { return getLinkColor(selectedNode, link) })
+      //textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+      //textElements.attr('display', function (node) { return getDisplay(node, neighbors) })
+      //linkElements.attr('stroke', function (link) { return getLinkColor(selectedNode, link) })
     }
 
     var linkElements = svg.selectAll("line")
@@ -423,11 +457,15 @@ $(document).ready(function(){
             }
           })
       .attr("display", function(d){
-        if(d.hasOwnProperty("type")){
-          return "block";
-        }
+
         if(d.hasOwnProperty("type")){
           if(d.type === "output_to_operator" || d.type === "operator_to_output"){
+            return "block";
+          }
+          if(d.type === "operator_to_operator"){
+            return "none";
+          }
+          else{
             return "block";
           }
         }
@@ -436,7 +474,13 @@ $(document).ready(function(){
     var nodeElements = svg.selectAll("circle")
       .data(nodes)
       .enter().append("circle")
-        .attr("r", 10)
+        .attr("r", function(d){
+          if(d.hasOwnProperty('operator')){
+            return 6;
+          }else{
+            return 10;
+          }
+        })
         .attr("fill", getNodeColor)
         .call(dragDrop)
         .on('click', selectNode)
@@ -492,7 +536,7 @@ $(document).ready(function(){
         .text(function (node) {
           return node.type === "operator_node" || node.type === "operator_output" ? node.id : node.content; })
     	  .attr("font-size", function(node){
-          return node.type === "operator_node" ? 40 : 15;
+          return node.type === "operator_node" ? 20 : 15;
         })
     	  .attr("dx", 15)
         .attr("dy", 4)
@@ -532,7 +576,7 @@ $(document).ready(function(){
 
     simulation.force("link").links(links)
 
-    $('.operator-node').on('dblclick',function(d){
+    $('.operator-node').on('click',function(d){
       var id = $(this).attr("id")
       if($(this).hasClass("selected")){
         $(this).removeClass("selected");
@@ -542,7 +586,7 @@ $(document).ready(function(){
         showContentOfGraph(id,"operator_node",true)
       }
     })
-    $('.group-output-node').on('dblclick', function(d){
+    $('.group-output-node').on('click', function(d){
       var id = $(this).attr("id")
       if($(this).hasClass("selected")){
         $(this).removeClass("selected");
@@ -927,7 +971,8 @@ function showContentOfGraph(id, type, x){
       $(link_output_group_to_element).show();
       $(link_operator_to_operator).hide();
       $(link_output_to_operator).show();
-      $(texts).show();
+      //$(texts).show();
+      $(texts).hide(); //just for the pictures
       $(texts_group).show();
     }
   }
@@ -948,7 +993,8 @@ function showContentOfGraph(id, type, x){
     }else{
       $(nodes_id).show();
       $(link_output_group_to_element).show();
-      $(texts).show();
+      //$(texts).show();
+      $(texts).hide(); //just for the pictures
 
     }
   }
